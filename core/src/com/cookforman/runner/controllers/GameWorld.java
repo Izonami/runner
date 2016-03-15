@@ -2,6 +2,7 @@ package com.cookforman.runner.controllers;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.cookforman.runner.model.Player;
 
 /**
  * Created by kuksin-mv on 15.03.2016.
@@ -10,9 +11,11 @@ import com.badlogic.gdx.math.MathUtils;
 public class GameWorld
 {
     private Circle circle = new Circle(-6, 13, 6);
+    private Player player;
 
     public GameWorld()
     {
+        this.player = new Player(-6, 13, circle);
     }
 
     /**
@@ -21,7 +24,8 @@ public class GameWorld
      */
     public void update(float delta)
     {
-        test(delta);
+        //test(delta);
+        player.update(delta);
     }
 
     private void test(float delta)
@@ -38,5 +42,10 @@ public class GameWorld
     public Circle getCircle()
     {
         return circle;
+    }
+
+    public Player getPlayer()
+    {
+        return player;
     }
 }
