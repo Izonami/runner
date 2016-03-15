@@ -10,8 +10,8 @@ public class DesktopLauncher
 	{
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Runner";
-        config.width = 480;
-        config.height = 320;
+        config.width = 272;
+        config.height = 408;
 		new LwjglApplication(new Runner(), config);
 	}
 }

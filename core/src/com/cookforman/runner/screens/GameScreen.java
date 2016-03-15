@@ -2,7 +2,6 @@ package com.cookforman.runner.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.cookforman.runner.controllers.GameWorld;
 import com.cookforman.runner.view.GameRenderer;
 
@@ -29,10 +28,6 @@ public class GameScreen implements Screen
     @Override
     public void render(float delta)
     {
-        Gdx.app.log("RUNNER FPS", String.valueOf((int) (1 / delta)));
-        Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         gameWorld.update(delta);
         gameRenderer.render();
     }
