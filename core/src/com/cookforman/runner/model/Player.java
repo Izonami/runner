@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Player
 {
-    private Circle circle;
+    private Circle boundingCircle;
 
     private Vector2 position; //Положение объекта
     private Vector2 velocity; //Передвижение объекта
@@ -19,39 +19,65 @@ public class Player
     private int width;
     private int height;
 
-    public Player(float x , float y)
+    private boolean isAlive;
+
+    public Player(float x , float y, int width, int height)
     {
+        this.width = width;
+        this.height = height;
         this.position = new Vector2(x, y);
         this.velocity = new Vector2(0, 0);
         this.acceleration = new Vector2(0, 460);
-    }
 
-    public Player(float x, float y, int width, int height)
-    {
-        this(x, y);
-        this.width = width;
-        this.height = height;
-    }
+        boundingCircle = new Circle();
 
-    public Player(float x, float y, Circle circle)
-    {
-        this(x, y);
-        this.circle = circle;
+        isAlive = true;
     }
 
     public void update(float delta)
     {
-        velocity.add(acceleration.scl(delta));
+        velocity.add(acceleration.cpy().scl(delta));
 
         if(velocity.y > 200)
             velocity.y = 200;
 
-        position.add(velocity.scl(delta));
+        // проверяем потолок
+        if (position.y < -13)
+        {
+            position.y = -13;
+            velocity.y = 0;
+        }
+
+        position.add(velocity.cpy().scl(delta));
+        boundingCircle.set(position.x + 9, position.y + 6, 6.5f);
+
+        // повернуть против часовой стрелки
+        if (velocity.y < 0)
+        {
+            rotation -= 600 * delta;
+
+            if (rotation < -20)
+            {
+                rotation = -20;
+            }
+        }
+
+        // Повернуть по часовой стрелке
+        if (isFalling() || !isAlive)
+        {
+            rotation += 480 * delta;
+            if (rotation > 35)
+            {
+                rotation = 35;
+            }
+
+        }
     }
 
     public void onClick()
     {
-        velocity.y = -140;
+        if(isAlive)
+            velocity.y = -150;
     }
 
     public float getX()
@@ -62,6 +88,16 @@ public class Player
     public float getY()
     {
         return position.y;
+    }
+
+    public boolean isFalling()
+    {
+        return velocity.y > 110;
+    }
+
+    public boolean shouldntFlap()
+    {
+        return velocity.y > 70 || !isAlive;
     }
 
     public float getWidth()
@@ -77,6 +113,28 @@ public class Player
     public float getRotation()
     {
         return rotation;
+    }
+
+    public Circle getBoundingCircle()
+    {
+        return boundingCircle;
+    }
+
+    public boolean isAlive()
+    {
+        return isAlive;
+    }
+
+    public void die()
+    {
+        isAlive = false;
+        velocity.y = 0;
+    }
+
+    public void isGround()
+    {
+        acceleration.y = 0;
+        velocity.y = 0;
     }
 
 }

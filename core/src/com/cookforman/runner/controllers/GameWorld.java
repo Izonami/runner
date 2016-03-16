@@ -1,7 +1,7 @@
 package com.cookforman.runner.controllers;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.cookforman.runner.model.Player;
 
 /**
@@ -10,12 +10,22 @@ import com.cookforman.runner.model.Player;
  */
 public class GameWorld
 {
-    private Circle circle = new Circle(-6, 13, 6);
     private Player player;
+    private ScrollHandler scroller;
 
-    public GameWorld()
+    private Rectangle ground;
+
+    public enum GameState {READY, RUNNING, GAMEOVER}
+
+    private GameState currentState;
+
+    public GameWorld(int midPointY)
     {
-        this.player = new Player(-6, 13, circle);
+        currentState = GameState.READY;
+        player = new Player(33, midPointY - 5, 17, 12);
+        scroller = new ScrollHandler(midPointY + 66);
+
+        ground = new Rectangle(0, midPointY + 66, 136, 11);
     }
 
     /**
@@ -24,28 +34,66 @@ public class GameWorld
      */
     public void update(float delta)
     {
-        //test(delta);
-        player.update(delta);
-    }
 
-    private void test(float delta)
-    {
-        // 136 и 204 это размер камеры указанной в GameRenderer
-        circle.x += delta * 20; // На каждый фрейм двигаем объект по оси X на фрейм умноженный на 20
-        if (circle.x > 136 + 6) // Если объект вышел за границу экрана (+ размер объекта, что бы он действительно скрылся)
+        switch (currentState)
         {
-            circle.x = 0 - 6; // Ставим объект в начало экрана минус размер объекта, что бы он как бы выплывал из-за границы
-            circle.y = MathUtils.random(0 + 6, 204 - 6); // Задаем рандомное положение по оси Y для минимума\максимума делаем +6\-6 что бы не появлялся за границей экрана
+            case READY:
+                updateReady(delta);
+                break;
+
+            case RUNNING:
+            default:
+                updateRunning(delta);
+                break;
         }
     }
 
-    public Circle getCircle()
+    private void updateReady(float delta)
     {
-        return circle;
+        // Пока что ничего не делаем
+    }
+
+    private void updateRunning(float delta)
+    {
+        player.update(delta);
+        scroller.update(delta);
+
+        if(scroller.collides(player))
+        {
+            scroller.stop();
+        }
+
+        if (Intersector.overlaps(player.getBoundingCircle(), ground) || scroller.collides(player))
+        {
+            currentState = GameState.GAMEOVER;
+            scroller.stop();
+            player.die();
+            player.isGround();
+        }
+    }
+
+    public boolean isReady()
+    {
+        return currentState == GameState.READY;
+    }
+
+    public void start()
+    {
+        currentState = GameState.RUNNING;
+    }
+
+    public boolean isGameOver()
+    {
+        return currentState == GameState.GAMEOVER;
     }
 
     public Player getPlayer()
     {
         return player;
+    }
+
+    public ScrollHandler getScroller()
+    {
+        return scroller;
     }
 }
