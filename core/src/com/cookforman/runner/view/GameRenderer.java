@@ -9,12 +9,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.cookforman.runner.Runner;
 import com.cookforman.runner.controllers.GameWorld;
 import com.cookforman.runner.controllers.ScrollHandler;
-import com.cookforman.runner.model.AssetLoader;
 import com.cookforman.runner.model.Player;
 import com.cookforman.runner.model.background.Grass;
 import com.cookforman.runner.model.background.Pipe;
+import com.cookforman.runner.utils.Constants;
+
+import static com.badlogic.gdx.graphics.Texture.TextureFilter.Nearest;
 
 /**
  * Created by kuksin-mv on 15.03.2016.
@@ -23,6 +26,7 @@ import com.cookforman.runner.model.background.Pipe;
 public class GameRenderer
 {
     private GameWorld gameWorld; //Даём доступ к игровому миру
+    private final Runner app;
     private Player player;
 
     private ScrollHandler scroller;
@@ -49,9 +53,10 @@ public class GameRenderer
      * принимая в качестве параметра GameWorld
      * @param gameWorld
      */
-    public GameRenderer(final GameWorld gameWorld, int gameHeight, int midPointY)
+    public GameRenderer(final GameWorld gameWorld, final Runner app, int gameHeight, int midPointY)
     {
         this.gameWorld = gameWorld;
+        this.app = app;
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
 
@@ -80,15 +85,25 @@ public class GameRenderer
 
     private void initAssets()
     {
-        bg = AssetLoader.bg;
-        grass = AssetLoader.grass;
-        playerAnimation = AssetLoader.playerAnimation;
-        playerIdle = AssetLoader.idle;
-        playerDown = AssetLoader.down;
-        playerUp = AssetLoader.up;
-        skullUp = AssetLoader.skullUp;
-        skullDown = AssetLoader.skullDown;
-        bar = AssetLoader.bar;
+        texture = app.assets.get(Constants.TEXTURE_PATH, Texture.class);
+        texture.setFilter(Nearest, Nearest);
+        bg = new TextureRegion(texture, 0, 0, 136, 43);
+        bg.flip(false, true);
+        grass = new TextureRegion(texture, 0, 43, 143, 11);
+        playerIdle = new TextureRegion(texture, 153, 0, 17, 12);
+        playerIdle.flip(false, true);
+        playerDown = new TextureRegion(texture, 136, 0, 17, 12);
+        playerDown.flip(false, true);
+        playerUp = new TextureRegion(texture, 170, 0, 17, 12);
+        playerUp.flip(false, true);
+        skullUp = new TextureRegion(texture, 192, 0, 24, 14);
+        skullDown = new TextureRegion(skullUp);
+        skullDown.flip(false, true);
+        bar = new TextureRegion(texture, 136, 16, 22, 3);
+
+        TextureRegion[] birds = { playerDown, playerIdle, playerUp };
+        playerAnimation = new Animation(0.06f, birds);
+        playerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
     /**

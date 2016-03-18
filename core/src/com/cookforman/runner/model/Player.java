@@ -36,7 +36,8 @@ public class Player
 
     public void update(float delta)
     {
-        velocity.add(acceleration.cpy().scl(delta));
+        velocity.add(acceleration.scl(delta));
+        acceleration.scl(1/delta);
 
         if(velocity.y > 200)
             velocity.y = 200;
@@ -77,7 +78,7 @@ public class Player
     public void onClick()
     {
         if(isAlive)
-            velocity.y = -150;
+            velocity.y = -100;
     }
 
     public float getX()

@@ -1,7 +1,7 @@
 package com.cookforman.runner.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.cookforman.runner.Runner;
 import com.cookforman.runner.controllers.GameWorld;
 import com.cookforman.runner.controllers.InputHandler;
 import com.cookforman.runner.view.GameRenderer;
@@ -9,15 +9,17 @@ import com.cookforman.runner.view.GameRenderer;
 /**
  * Created by kuksin-mv on 15.03.2016.
  */
-public class GameScreen implements Screen
+public class GameScreen extends AbstractScreen
 {
     private GameWorld gameWorld;
     private GameRenderer gameRenderer;
 
     private float runTime = 0;
 
-    public GameScreen()
+    public GameScreen(final Runner app)
     {
+        super(app);
+
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float gameWidth = 136; //136 Это ширина камеры!
@@ -26,7 +28,7 @@ public class GameScreen implements Screen
         int midPointY = (int) (gameHight / 2); // Это нужно что бы положение было независимо от разрешения экрана
 
         gameWorld = new GameWorld(midPointY);
-        gameRenderer = new GameRenderer(gameWorld, (int)gameHight, midPointY);
+        gameRenderer = new GameRenderer(gameWorld, app, (int)gameHight, midPointY);
 
         Gdx.input.setInputProcessor( new InputHandler(gameWorld)); //Задаем инпут процессор и передаем в него персонажа
     }

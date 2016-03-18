@@ -1,23 +1,33 @@
 package com.cookforman.runner;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.cookforman.runner.model.AssetLoader;
-import com.cookforman.runner.screens.GameScreen;
 
 public class Runner extends Game
 {
+    public AssetManager assets;
+    public SpriteBatch batch;
+    public BitmapFont font;
 
     @Override
     public void create()
     {
-        AssetLoader.load();//Загружаем текстурки
-        setScreen(new GameScreen());
+        assets = new AssetManager();
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+
+        setScreen(new AssetLoader(this));
     }
 
     @Override
     public void dispose()
     {
         super.dispose();
-        AssetLoader.dispose();
+
+        assets.dispose();
+        batch.dispose();
     }
 }
