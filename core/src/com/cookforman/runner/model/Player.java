@@ -6,26 +6,20 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by kuksin-mv on 15.03.2016.
  */
-public class Player
+public class Player extends GameObject
 {
     private Circle boundingCircle;
 
-    private Vector2 position; //Положение объекта
     private Vector2 velocity; //Передвижение объекта
     private Vector2 acceleration; //Ускорение объекта
 
     private float rotation; // Поворот объекта
-    // Размеры объекта
-    private int width;
-    private int height;
 
     private boolean isAlive;
 
     public Player(float x , float y, int width, int height)
     {
-        this.width = width;
-        this.height = height;
-        this.position = new Vector2(x, y);
+        super(x, y, width, height);
         this.velocity = new Vector2(0, 0);
         this.acceleration = new Vector2(0, 460);
 

@@ -28,7 +28,7 @@ public class GameScreen extends AbstractScreen
         int midPointY = (int) (gameHight / 2); // Это нужно что бы положение было независимо от разрешения экрана
 
         gameWorld = new GameWorld(midPointY);
-        gameRenderer = new GameRenderer(gameWorld, app, (int)gameHight, midPointY);
+        gameRenderer = new GameRenderer(gameWorld, app);
 
         Gdx.input.setInputProcessor( new InputHandler(gameWorld)); //Задаем инпут процессор и передаем в него персонажа
     }

@@ -8,8 +8,8 @@ import com.cookforman.runner.model.AssetLoader;
 
 public class Runner extends Game
 {
-    public AssetManager assets;
-    public SpriteBatch batch;
+    public AssetManager assets; //Менеджер ресурсов
+    public SpriteBatch batch; //
     public BitmapFont font;
 
     @Override
