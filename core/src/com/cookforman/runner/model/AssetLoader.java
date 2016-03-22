@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.cookforman.runner.Runner;
 import com.cookforman.runner.screens.AbstractScreen;
-import com.cookforman.runner.screens.GameScreen;
+import com.cookforman.runner.screens.ScreenEnum;
+import com.cookforman.runner.screens.ScreenManager;
 
 import static com.cookforman.runner.utils.Constants.TEXTURE_PATH;
 
@@ -15,11 +16,16 @@ public class AssetLoader extends AbstractScreen
 {
     private float progress;
 
-    public AssetLoader(Runner app)
+    public AssetLoader(final Runner app)
     {
         super(app);
 
         progress = 0f;
+    }
+
+    @Override
+    public void buildStage() {
+
     }
 
     @Override
@@ -39,7 +45,7 @@ public class AssetLoader extends AbstractScreen
 
         if (app.assets.update() && progress >= app.assets.getProgress() - .001f)
         {
-            app.setScreen(new GameScreen(app));
+            ScreenManager.getInstanse().showScreen(app, ScreenEnum.GAME, 1);
         }
 
         app.batch.begin();

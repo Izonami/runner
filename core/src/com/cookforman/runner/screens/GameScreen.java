@@ -1,80 +1,67 @@
 package com.cookforman.runner.screens;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.cookforman.runner.Runner;
-import com.cookforman.runner.controllers.GameWorld;
-import com.cookforman.runner.controllers.InputHandler;
-import com.cookforman.runner.view.GameRenderer;
+import com.cookforman.runner.model.Player;
+import com.cookforman.runner.utils.Constants;
 
 /**
  * Created by kuksin-mv on 15.03.2016.
  */
 public class GameScreen extends AbstractScreen
 {
-    private GameWorld gameWorld;
-    private GameRenderer gameRenderer;
+    Texture texture;
+    TextureRegion textureRegion;
+    Player player;
 
-    private float runTime = 0;
+    private World world;
 
-    public GameScreen(final Runner app)
+    public GameScreen(final Runner app, Integer level)
     {
         super(app);
 
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        float gameWidth = 136; //136 Это ширина камеры!
-        float gameHight = screenHeight / (screenWidth / gameWidth);
+        texture = app.assets.get(Constants.TEXTURE_PATH, Texture.class);
+        world = new World(new Vector2(0, -10), true);
 
-        int midPointY = (int) (gameHight / 2); // Это нужно что бы положение было независимо от разрешения экрана
-
-        gameWorld = new GameWorld(midPointY);
-        gameRenderer = new GameRenderer(gameWorld, app);
-
-        Gdx.input.setInputProcessor( new InputHandler(gameWorld)); //Задаем инпут процессор и передаем в него персонажа
     }
 
     @Override
-    public void show()
+    public void buildStage()
     {
-        Gdx.app.log("RUNNER", "show");
+        Image bg = new Image(texture);
+        //addActor(bg);
+
+        player = new Player(world, 1, 1);
+        addActor(player);
+
+        bg.addListener(cLis(app, ScreenEnum.LOAD));
     }
 
     @Override
     public void render(float delta)
     {
-        runTime += delta;
+        super.render(delta);
 
-        gameWorld.update(delta);
-        gameRenderer.render(runTime);
+        world.step(1/60f, 4, 4);
     }
 
-    @Override
-    public void resize(int width, int height)
+    public static InputListener cLis(final Runner app, final ScreenEnum screenEnum, final Object... par)
     {
-        Gdx.app.log("RUNNER", "width: " + width + "\n" + "height: " + height);
-    }
-
-    @Override
-    public void pause()
-    {
-        Gdx.app.log("RUNNER", "pause");
-    }
-
-    @Override
-    public void resume()
-    {
-        Gdx.app.log("RUNNER", "resume");
-    }
-
-    @Override
-    public void hide()
-    {
-        Gdx.app.log("RUNNER", "hide");
-    }
-
-    @Override
-    public void dispose()
-    {
-        Gdx.app.log("RUNNER", "dispose");
+        return
+                new InputListener()
+                {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+                    {
+                        ScreenManager.getInstanse().showScreen(app, screenEnum, par);
+                        return false;
+                    }
+                };
     }
 }

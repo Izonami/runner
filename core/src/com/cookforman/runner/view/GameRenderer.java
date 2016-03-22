@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.cookforman.runner.Runner;
 import com.cookforman.runner.controllers.GameWorld;
 import com.cookforman.runner.model.Player;
 
@@ -15,7 +14,6 @@ import com.cookforman.runner.model.Player;
 public class GameRenderer
 {
     private GameWorld gameWorld; //Даём доступ к игровому миру
-    private final Runner app;
     private Player player;
 
     private OrthographicCamera camera; //Объявляем камеру
@@ -28,9 +26,8 @@ public class GameRenderer
      * принимая в качестве параметра GameWorld
      * @param gameWorld
      */
-    public GameRenderer(final GameWorld gameWorld, final Runner app)
+    public GameRenderer(final GameWorld gameWorld)
     {
-        this.app = app;
     }
 
     /**

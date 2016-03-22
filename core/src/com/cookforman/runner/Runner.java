@@ -4,13 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.cookforman.runner.model.AssetLoader;
+import com.cookforman.runner.screens.ScreenEnum;
+import com.cookforman.runner.screens.ScreenManager;
 
 public class Runner extends Game
 {
     public AssetManager assets; //Менеджер ресурсов
-    public SpriteBatch batch; //
-    public BitmapFont font;
+    public SpriteBatch batch; //Менеджер отрисовки
+    public BitmapFont font; //Менеджер шрифтов
 
     @Override
     public void create()
@@ -19,7 +20,9 @@ public class Runner extends Game
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        setScreen(new AssetLoader(this));
+        //Реализация синглтон экранов
+        ScreenManager.getInstanse().init(this);
+        ScreenManager.getInstanse().showScreen(this, ScreenEnum.LOAD);
     }
 
     @Override
