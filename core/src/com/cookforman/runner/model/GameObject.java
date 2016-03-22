@@ -15,7 +15,7 @@ public abstract class GameObject extends Actor
 
     private World world;
 
-    public GameObject(World world, int width, int height)
+    public GameObject(World world)
     {
         this.world = world;
     }
@@ -25,13 +25,13 @@ public abstract class GameObject extends Actor
         BodyDef bDef = new BodyDef();
         bDef.position.set(getX(), getY());
         bDef.type = type;
-        bDef.gravityScale = 0.1f;
 
         body = world.createBody(bDef);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.restitution = 1;
+        fDef.restitution = 1.1f;
+        fDef.friction = 1;
         fDef.density = 5;
 
         body.createFixture(fDef);
