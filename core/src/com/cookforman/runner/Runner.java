@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.cookforman.runner.screens.ScreenEnum;
-import com.cookforman.runner.screens.ScreenManager;
+import com.cookforman.runner.controllers.ScreenEnum;
+import com.cookforman.runner.controllers.ScreenManager;
 
 public class Runner extends Game
 {

@@ -14,7 +14,7 @@ public class Boll extends GameObject
     public Boll(World world, float x, float y, int r, float g, BodyDef.BodyType type)
     {
         super(world);
-        setBounds(x, y, r, r);
+        setPosition(x, y);
 
         CircleShape shape = new CircleShape();
         shape.setRadius(r);

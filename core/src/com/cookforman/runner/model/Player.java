@@ -13,7 +13,7 @@ public class Player extends GameObject
     public Player(World world, float x, float y, int w, int h, float g, BodyDef.BodyType type)
     {
         super(world);
-        setBounds(x, y, w, h);
+        setPosition(x, y);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(w, h/3);

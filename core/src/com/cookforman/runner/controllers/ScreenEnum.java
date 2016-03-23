@@ -1,7 +1,9 @@
-package com.cookforman.runner.screens;
+package com.cookforman.runner.controllers;
 
 import com.cookforman.runner.Runner;
 import com.cookforman.runner.model.AssetLoader;
+import com.cookforman.runner.screens.AbstractScreen;
+import com.cookforman.runner.screens.GameScreen;
 
 /**
  * Created by kuksin-mv on 22.03.2016.
