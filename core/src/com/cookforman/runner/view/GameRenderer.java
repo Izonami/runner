@@ -26,7 +26,7 @@ public class GameRenderer implements Screen
     @Override
     public void show()
     {
-
+        Gdx.input.setInputProcessor(screen);
     }
 
     @Override
@@ -41,6 +41,8 @@ public class GameRenderer implements Screen
         screen.draw();
 
         screen.render(delta);
+
+
     }
 
     @Override
