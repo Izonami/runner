@@ -3,7 +3,7 @@ package com.cookforman.runner.controllers;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.cookforman.runner.Runner;
-import com.cookforman.runner.screens.AbstractScreen;
+import com.cookforman.runner.view.GameRenderer;
 
 /**
  * Created by kuksin-mv on 22.03.2016.
@@ -31,14 +31,13 @@ public class ScreenManager
 
     public void showScreen(final Runner app, ScreenEnum screenEnum, Object... params)
     {
-        Screen currntScreen = game.getScreen();
+        Screen currentScreen = game.getScreen();
 
-        AbstractScreen newScreen = screenEnum.getScreen(app, params);
-
+        GameRenderer newScreen = screenEnum.getScreen(app, params);
 
         game.setScreen(newScreen);
 
-        if (currntScreen != null)
-            currntScreen.dispose();
+        if (currentScreen != null)
+            currentScreen.dispose();
     }
 }

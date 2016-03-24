@@ -30,7 +30,7 @@ public abstract class GameObject extends Actor
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.restitution = 1.1f;
+        fDef.restitution = 1;
         fDef.friction = 1;
         fDef.density = 5;
 
